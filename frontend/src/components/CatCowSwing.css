@@ -1,0 +1,379 @@
+:root{
+  --color-bg:#1F1F3C;
+  --color-fur-light:#ffffff;        /* พื้นขาว */
+  --color-fur-dark:#3b2f2f;         /* น้ำตาลเข้ม (ลายวัว) */
+  --color-features:#4B4D75;
+  --color-features-light:#9FA2CB;
+  --color-yarn:#DB242A;
+  --duration:7s;
+  --easing:cubic-bezier(0.5,0,0.5,1);
+}
+
+/* Scene */
+.cowcat-scene, .cowcat-scene html, .cowcat-scene body {
+  height: 100%;
+  width: 100%;
+}
+.cowcat-scene{
+  height: 100vh;
+  width: 100%;
+  background: var(--color-bg);
+  overflow: hidden;
+  position: relative;
+  font-size: 16px;
+}
+
+/* Generic */
+*, *::before, *::after{
+  box-sizing: border-box;
+  position: relative;
+  animation-timing-function: var(--easing);
+  animation-fill-mode: both;
+}
+*::before, *::after{
+  content:'';
+  display:block;
+}
+
+/* Bob of whole bundle */
+.all-wrap{
+  animation: bob var(--duration) var(--easing) infinite both;
+}
+
+/* Top hanger + swing */
+.all{
+  top: 10rem;
+  left: calc(50% - 2.5rem);
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+  transform-origin: center -20rem;
+  animation: swing var(--duration) var(--easing) infinite both;
+}
+.all::before{
+  height: 20rem;
+  width: 2px;
+  background-color: var(--color-yarn);
+  left: calc(50% - 1px);
+  bottom: 20rem;
+  position: absolute;
+}
+
+/* Yarn ball */
+.yarn{
+  position:absolute;
+  top:0; left:0;
+  width:80px; height:80px;
+  border-radius:50%;
+  background-image: radial-gradient(circle at top left,
+    #ff7a7e, var(--color-yarn) 50%, #9c1b1f);
+  z-index:1;
+}
+.yarn::before, .yarn::after{
+  position:absolute;
+  width:20px; height:20px;
+  border-radius:50%;
+  top:-1px;
+}
+.yarn::before{
+  left: calc(50% + 7px);
+  background-color:#a9b3f0;
+}
+.yarn::after{
+  right: calc(50% + 7px);
+  background-color:#eaf4ff;
+}
+
+/* Cat wrapper (counter-swing) */
+.cat-wrap{
+  position:absolute;
+  top:0;
+  left: calc(50% - 45px);
+  width:90px; height:130px;
+  transform-origin: top center;
+  animation: reverse-swing var(--duration) var(--easing) infinite both;
+}
+
+/* Cat (slight delay) */
+.cat{
+  position:absolute; inset:0;
+  transform-origin: top center;
+  animation: swing var(--duration) .2s infinite both;
+}
+
+/* Upper body + forelegs */
+.cat-upper{
+  position:absolute; inset:0;
+  transform-origin: top center;
+  z-index:1;
+}
+.cat-upper .cat-leg{
+  position:absolute;
+  width:20px; height:100%;
+  z-index:-1;
+  background-image: linear-gradient(to right,
+    var(--color-fur-light),
+    var(--color-fur-light) 20%,
+    var(--color-fur-dark));
+  background-color:#fff;
+}
+.cat-upper .cat-leg:nth-child(1){
+  border-top-left-radius:100px;
+  left:10px;
+}
+.cat-upper .cat-leg:nth-child(2){
+  border-top-right-radius:100px;
+  right:10px;
+}
+
+/* Lower body (counter-swing) */
+.cat-lower-wrap{
+  height:90%;
+  width:100%;
+  position:absolute;
+  top:100%;
+  left:0;
+  width:75px;
+  left: calc(50% - 37.5px);
+  transform-origin: top center;
+  animation: reverse-swing var(--duration) .2s infinite both;
+}
+.cat-lower{
+  position:absolute; inset:0;
+  transform-origin: top center;
+  animation: swing var(--duration) .5s infinite both;
+}
+.cat-lower::after{
+  position:absolute; inset:0;
+  border-radius:100px;
+  /* ฐานลำตัวสีขาว + ลายวัวนม */
+  background:
+    /* cow spots layers */
+    radial-gradient(28px 22px at 20% 55%, var(--color-fur-dark) 0 70%, transparent 72%),
+    radial-gradient(30px 24px at 70% 35%, var(--color-fur-dark) 0 68%, transparent 70%),
+    radial-gradient(26px 20px at 50% 75%, var(--color-fur-dark) 0 66%, transparent 68%),
+    /* base shading */
+    radial-gradient(circle at 10px 50px, #ffffff, #ffffff 40%, #e6f0ff 65%, #bfc8f0);
+  z-index:1;
+}
+
+/* Hind legs + paws */
+.cat-lower > .cat-leg,
+.cat-lower .cat-paw{
+  z-index:1;
+  position:absolute;
+  height:20px; width:20px;
+  transform-origin: top center;
+  border-top-left-radius:20px;
+  border-top-right-radius:20px;
+  animation: swing-leg var(--duration) .3s infinite both;
+  background-image: linear-gradient(to right, #fff, #eef6ff, #bfc8f0);
+}
+.cat-lower > .cat-leg{ bottom:20px; }
+.cat-lower > .cat-leg + .cat-leg{ right:0; }
+.cat-lower > .cat-leg .cat-leg{ top:25%; }
+
+.cat-lower .cat-paw{
+  top:50%;
+  border-radius:50%;
+  background:#fff;
+}
+
+/* Tail */
+.cat-tail{
+  position:absolute;
+  height:15px; width:10px;
+  transform-origin: top center;
+  z-index:0;
+  animation: swing-tail var(--duration) var(--easing) infinite both;
+  background-image: linear-gradient(to right, #fff, #eef6ff, #bfc8f0);
+  border-bottom-left-radius:10px;
+  border-bottom-right-radius:10px;
+}
+.cat-lower > .cat-tail{ left: calc(50% - 5px); top:95%; }
+.cat-tail > .cat-tail{ top:50%; }
+
+/* Head */
+.cat-head{
+  width:90px; height:90px;
+  border-radius:50%;
+  top: calc(100% - 45px);
+  position:absolute; left:0; right:0; margin:auto;
+  /* ฐานหัวสีขาว + cow spots */
+  background:
+    radial-gradient(22px 18px at 28% 35%, var(--color-fur-dark) 0 68%, transparent 70%),
+    radial-gradient(24px 20px at 70% 60%, var(--color-fur-dark) 0 66%, transparent 68%),
+    radial-gradient(circle at 10px 10px, #ffffff, #ffffff 40%, #e6f0ff 65%, #bfc8f0);
+}
+
+/* Face group */
+.cat-face{
+  position:absolute; inset:0;
+  transform-style: preserve-3d;
+  perspective:100px;
+  animation: face var(--duration) var(--easing) infinite both;
+}
+
+/* Ears */
+.cat-ears{
+  position:absolute; top:0; left:0; height:50%; width:100%;
+  z-index:-1;
+}
+.cat-ear{
+  width:20px; height:100%;
+  position:absolute; border-radius:5px; top:-10px;
+  background:#fff;
+}
+.cat-ear:first-child{
+  left:0; transform-origin: top left; transform: skewY(40deg);
+}
+.cat-ear:last-child{
+  right:0; transform-origin: top right; transform: skewY(-40deg);
+  background: #f7fbff;
+}
+.cat-ear::before{
+  width:60%; height:100%; top:10px; position:absolute; background:#fff;
+}
+.cat-ear:first-child::before{
+  left:0; border-top-right-radius:50%; border-bottom-right-radius:50%; background:#D7EBFB;
+}
+.cat-ear:last-child::before{
+  right:0; border-top-left-radius:50%; border-bottom-left-radius:50%; background:#eaf4ff;
+}
+
+/* Eyes */
+.cat-eyes{
+  position:absolute; top:50%; width:100%; height:6px;
+  animation: blink var(--duration) step-end infinite both;
+}
+.cat-eyes::before, .cat-eyes::after{
+  position:absolute; height:6px; width:6px; border-radius:50%;
+  background: var(--color-features);
+  content:'';
+}
+.cat-eyes::before{ left:20px; }
+.cat-eyes::after{ right:20px; }
+
+/* Mouth */
+.cat-mouth{
+  position:absolute;
+  width:12px; height:8px;
+  background: var(--color-features);
+  top:60%; left: calc(50% - 6px);
+  border-top-left-radius: 50% 30%;
+  border-top-right-radius: 50% 30%;
+  border-bottom-left-radius: 50% 70%;
+  border-bottom-right-radius: 50% 70%;
+  transform: translateZ(10px);
+}
+.cat-mouth::before, .cat-mouth::after{
+  position:absolute; width:90%; height:100%;
+  border:2px solid var(--color-features-light);
+  top:80%; border-radius:100px; border-top-color:transparent; z-index:-1;
+  content:'';
+}
+.cat-mouth::before{
+  border-left-color:transparent; right: calc(50% - 1px);
+  transform-origin: top right; transform: rotate(10deg);
+}
+.cat-mouth::after{
+  border-right-color:transparent; left: calc(50% - 1px);
+  transform-origin: top left; transform: rotate(-10deg);
+}
+
+/* Whiskers */
+.cat-whiskers{
+  width:50%; height:8px; position:absolute; bottom:25%; left:25%;
+  transform-style: preserve-3d; perspective:60px;
+}
+.cat-whiskers::before, .cat-whiskers::after{
+  position:absolute; height:100%; width:30%;
+  border:2px solid var(--color-features-light);
+  border-left:none; border-right:none; content:'';
+}
+.cat-whiskers::before{
+  right:100%; transform-origin: right center; transform: rotateY(70deg) rotateZ(-10deg);
+}
+.cat-whiskers::after{
+  left:100%; transform-origin: left center; transform: rotateY(-70deg) rotateZ(10deg);
+}
+
+/* ---------- Animations (แปลงจาก SCSS $swings: 5 -10 10 -15 23 -23 15 -10 5) ---------- */
+@keyframes bob{
+  /* สลับขึ้นลงเบาๆ */
+  0%   { transform: translateY(.4rem); }
+  12.5%{ transform: translateY(-.4rem); }
+  25%  { transform: translateY(.4rem); }
+  37.5%{ transform: translateY(-.4rem); }
+  50%  { transform: translateY(.4rem); }
+  62.5%{ transform: translateY(-.4rem); }
+  75%  { transform: translateY(.4rem); }
+  87.5%{ transform: translateY(-.4rem); }
+  100% { transform: translateY(.4rem); }
+}
+
+/* สร้าง keyframes จากลำดับมุมแกว่ง */
+@keyframes swing{
+  0%   { transform: rotate(5deg); }
+  12.5%{ transform: rotate(-10deg); }
+  25%  { transform: rotate(10deg); }
+  37.5%{ transform: rotate(-15deg); }
+  50%  { transform: rotate(23deg); }
+  62.5%{ transform: rotate(-23deg); }
+  75%  { transform: rotate(15deg); }
+  87.5%{ transform: rotate(-10deg); }
+  100% { transform: rotate(5deg); }
+}
+
+@keyframes reverse-swing{
+  0%   { transform: rotate(-5deg); }
+  12.5%{ transform: rotate(10deg); }
+  25%  { transform: rotate(-10deg); }
+  37.5%{ transform: rotate(15deg); }
+  50%  { transform: rotate(-23deg); }
+  62.5%{ transform: rotate(23deg); }
+  75%  { transform: rotate(-15deg); }
+  87.5%{ transform: rotate(10deg); }
+  100% { transform: rotate(-5deg); }
+}
+
+@keyframes swing-leg{
+  0%   { transform: rotate(0.5deg); }
+  12.5%{ transform: rotate(-1deg); }
+  25%  { transform: rotate(1deg); }
+  37.5%{ transform: rotate(-1.5deg); }
+  50%  { transform: rotate(2.3deg); }
+  62.5%{ transform: rotate(-2.3deg); }
+  75%  { transform: rotate(1.5deg); }
+  87.5%{ transform: rotate(-1deg); }
+  100% { transform: rotate(0.5deg); }
+}
+
+@keyframes swing-tail{
+  0%   { transform: rotate(-2deg); }
+  12.5%{ transform: rotate(4deg); }
+  25%  { transform: rotate(-4deg); }
+  37.5%{ transform: rotate(6deg); }
+  50%  { transform: rotate(-9.2deg); }
+  62.5%{ transform: rotate(9.2deg); }
+  75%  { transform: rotate(-6deg); }
+  87.5%{ transform: rotate(4deg); }
+  100% { transform: rotate(-2deg); }
+}
+
+@keyframes face{
+  0%   { transform: translateX(-2.5px); }
+  12.5%{ transform: translateX(5px); }
+  25%  { transform: translateX(-5px); }
+  37.5%{ transform: translateX(7.5px); }
+  50%  { transform: translateX(-11.5px); }
+  62.5%{ transform: translateX(11.5px); }
+  75%  { transform: translateX(-7.5px); }
+  87.5%{ transform: translateX(5px); }
+  100% { transform: translateX(-2.5px); }
+}
+
+@keyframes blink{
+  from, to, 10%, 25%, 80% { transform: scaleY(1); }
+  8%, 23%, 78%            { transform: scaleY(0.1); }
+}

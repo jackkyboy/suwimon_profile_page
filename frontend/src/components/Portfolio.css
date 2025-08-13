@@ -1,0 +1,22 @@
+.portfolio-wrapper {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 25px;
+  box-shadow: 0 10px 30px rgba(255, 182, 193, 0.2);
+}
+
+.portfolio-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(255, 105, 135, 0.2);
+}
+
+.text-pink {
+  color: #ff6f9c;
+}

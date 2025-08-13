@@ -1,0 +1,20 @@
+.floating-clock {
+  position: fixed;
+  top: 20px;
+  right: 30px;
+  background-color: #ffe6f0;
+  color: #ff4f91;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-family: 'Kanit', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  box-shadow:
+    0 0 12px rgba(255, 182, 193, 0.4),
+    0 0 20px rgba(255, 182, 193, 0.2);
+  text-shadow:
+    0 0 4px rgba(255, 105, 135, 0.4),
+    0 0 6px rgba(255, 182, 193, 0.4);
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+}
