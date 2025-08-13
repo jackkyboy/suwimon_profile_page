@@ -27,6 +27,17 @@
   --shadow-lg: 0 12px 40px var(--pink-shadow), 0 6px 20px rgba(0,0,0,.08);
   --shadow-md: 0 8px 30px rgba(255,182,193,.2), 0 4px 10px rgba(0,0,0,.05);
   --shadow-soft: 0 2px 10px rgba(0,0,0,.05);
+
+  /* sizing (ทำให้กรอบใหญ่ขึ้นแบบยืดหยุ่น) */
+  --avatar-size: 160px;                 /* เดิม 140px → ขยายรูปจริง */
+  --avatar-ring: 22px;                  /* เดิม 20px → กรอบใหญ่ขึ้น */
+
+  /* gradient token (ใช้กับกรอบใหญ่) */
+  --avatar-gradient: linear-gradient(315deg,
+    rgb(172, 21, 177) 3%,
+    rgba(60,132,206,1) 38%,
+    rgba(48,238,226,1) 68%,
+    rgb(137, 237, 140) 98%);
 }
 
 /* =========================================================
@@ -55,40 +66,108 @@ body{
 /* =========================================================
    Profile Card
 ========================================================= */
-.profile-card{
-  width:100%;
-  max-width:460px;
-  padding:var(--space-lg) var(--space-md);
-  text-align:center;
+.profile-card {
+  width: 100%;
+  max-width: 460px;
+  padding: var(--space-lg) var(--space-md);
+  text-align: center;
 
-  background:var(--glass-bg);
+  background: var(--glass-bg);
   -webkit-backdrop-filter: blur(var(--glass-blur));
   backdrop-filter: blur(var(--glass-blur));
 
-  border-radius:var(--radius-lg);
-  box-shadow:var(--shadow-md);
-  transition:transform .3s ease, box-shadow .3s ease;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: transform .3s ease, box-shadow .3s ease;
 }
-.profile-card:hover{
-  transform:translateY(-4px);
-  box-shadow:var(--shadow-lg);
+.profile-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
 }
 
-/* avatar */
-.profile-img{
-  width:140px;
-  height:140px;
-  border-radius:50%;
-  object-fit:cover;
-  border:6px solid var(--pink-200);
-  box-shadow:0 0 0 8px #fff, 0 6px 20px var(--pink-shadow);
-  transition:transform .3s ease;
+/* avatar (รูปจริง) */
+.profile-img {
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 50%;
+  object-fit: cover;
+  border: 6px solid #fff; /* ขอบในขาวให้เด่น */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+  transition: transform .3s ease;
 }
-.profile-img:hover{ transform:scale(1.05) }
+.profile-img:hover { transform: scale(1.05); }
 
 /* text */
-.text-pink{ color:var(--pink); font-weight:600; font-size:24px; }
-p{ color:#555; margin:0 }
+.text-pink { 
+  color: var(--pink); 
+  font-weight: 600; 
+  font-size: 24px; 
+}
+p { color: #555; margin: 0; }
+
+/* ==== กรอบไล่สีเคลื่อนไหว "ใหญ่ขึ้น" รอบภาพโปรไฟล์ ==== */
+/* ==== กรอบไล่สีเคลื่อนไหว "ใหญ่ขึ้น" รอบภาพโปรไฟล์ - พาสเทลเข้มขึ้น ==== */
+.avatar-gradient-wrap {
+  --avatar-gradient: linear-gradient(315deg,
+    #ff82ab 0%,   /* ชมพูพาสเทลเข้มขึ้น */
+    #7ec8e3 50%,  /* ฟ้าพาสเทลเข้มขึ้น */
+    #ff82ab 100%
+  );
+
+  position: relative;
+  width: calc(var(--avatar-size) + var(--avatar-ring) * 2);
+  height: calc(var(--avatar-size) + var(--avatar-ring) * 2);
+  border-radius: 50%;
+  padding: var(--avatar-ring);
+  isolation: isolate;
+
+  background: var(--avatar-gradient);
+  background-size: 300% 300%;
+  animation: avatarGradientShift 5s ease-in-out infinite;
+
+  /* Glow หลัก + เงาเน้น */
+  box-shadow:
+    0 0 35px rgba(255, 130, 171, 0.55),
+    0 0 55px rgba(126, 200, 227, 0.45),
+    0 16px 32px rgba(0,0,0,0.25);
+}
+
+/* glow ด้านนอกหลายเลเยอร์ให้ฟุ้งชัด */
+.avatar-gradient-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  border-radius: 50%;
+  background: var(--avatar-gradient);
+  background-size: 300% 300%;
+  animation: avatarGradientShift 5s ease-in-out infinite;
+
+  /* สร้างหลายชั้น glow ให้ตัดกับพื้นหลัง */
+  box-shadow:
+    0 0 25px rgba(255, 130, 171, 0.7),
+    0 0 40px rgba(126, 200, 227, 0.6),
+    0 0 70px rgba(255, 130, 171, 0.4);
+  
+  filter: blur(18px);
+  opacity: 0.8;
+  z-index: -1;
+}
+
+/* keyframes ไล่สีสำหรับกรอบ */
+@keyframes avatarGradientShift {
+  0%, 100% { background-position: 0 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+
+/* responsive เล็กน้อยสำหรับจอเล็ก */
+@media (max-width: 420px){
+  :root{
+    --avatar-size: 140px;
+    --avatar-ring: 18px;
+  }
+}
+
 
 /* =========================================================
    Social Buttons
@@ -143,39 +222,33 @@ p{ color:#555; margin:0 }
 /* =========================================================
    Cow-Cat (embedded compact mode)
 ========================================================= */
-/* แมวลอยอิสระ ไม่ไปรวมกับเนื้อหา */
+/* แมวลอยอิสระ ไม่ไปรวมกับ flex/content */
 .cowcat-slot{
   position:absolute;
-  top:-28px;
-  right:-28px;
-  width:280px;
-  height:280px;
+  top:-28px;               /* เดิม -10px */
+  right:-28px;             /* เดิม -10px */
+  width:280px;             /* เดิม 220px */
+  height:280px;            /* เดิม 220px */
   pointer-events:none;
-  z-index:1;          /* ต่ำกว่าข้อความ (ซึ่ง z-index:2) */
-  overflow:hidden;    /* กรอบใหญ่ขึ้น เลยไม่ตัดตัวแล้ว */
+  z-index:1;
+  overflow:hidden;         /* คงไว้ แต่กรอบใหญ่ขึ้น */
 }
 .cowcat-slot .cowcat-scene{
   width:100%; height:100%;
   background:transparent !important;
 }
-
-/* ย่อ+ขยับให้พอดีกรอบ ลดอาการ sub-pixel */
 .cowcat-slot .all-wrap{
-  transform: scale(.74) translate(18px, 10px);
-  transform-origin: top right;
-  will-change: transform;
+  transform:scale(.78);
+  transform-origin:top right;
 }
-
-/* จูนเชือก/จุดหมุนให้ไม่ชนขอบ */
 .cowcat-slot .all{
-  top: 2.6rem;
-  transform-origin: center -5.6rem;
+  top:3rem;                   /* เชือกสั้นลง */
+  transform-origin:center -6rem;
 }
 .cowcat-slot .all::before{
-  height: 5.2rem;
-  bottom: 5.2rem;
+  height:5.5rem;
+  bottom:5.5rem;
 }
-
 
 /* =========================================================
    Responsive

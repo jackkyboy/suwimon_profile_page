@@ -8,9 +8,6 @@ import "./CatCowSwing.css";
 import { makeCertificateBook } from "../utils/makeCertificateBook";
 import { certificates } from "../data/certificates";
 
-
-
-
 // ✅ import รูปจาก assets
 import profileImage from '../assets/suwimon_profile.JPG';
 
@@ -19,11 +16,21 @@ export default function SuwimonProfile() {
     <div className="container profile-wrapper">
       {/* Header */}
       <div className="text-center profile-header mb-4">
-        <img
-          src={profileImage}  // ✅ ใช้ตัวแปรจาก import
-          className="rounded-circle shadow profile-img"
-          alt="Suwimon Kaema"
-        />
+
+        {/* ✅ รูปจริง + กรอบไล่สีใหญ่ */}
+        <div className="avatar-gradient-wrap mx-auto">
+          <img
+            src={profileImage}
+            className="profile-img"
+            alt="Suwimon Kaema"
+          />
+        </div>
+
+        {/* 🎀 แมวลายวัวนม */}
+        <div className="cowcat-slot d-none d-md-block">
+          <CatCowSwing />
+        </div>
+
         <h2 className="mt-3 text-pink">สุวิมล แกะมา (ฟ้า)</h2>
         <p className="text-muted px-3">
           ผู้เชี่ยวชาญงานจัดซื้อ 📦 | รักการเรียนรู้ 📚{" "}
