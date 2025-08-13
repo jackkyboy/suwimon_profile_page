@@ -1,0 +1,142 @@
+/* src/components/CertificateShelf.css */
+
+/* ---- Layout รวม ---- */
+.cert-section{
+  max-width: 820px;
+  margin: 3rem auto 2rem;
+  padding: 0 12px;
+  position: relative;
+  text-align: center;             /* ให้แถวอยู่กึ่งกลาง */
+}
+
+/* หนึ่งชั้น = บล็อกแนวตั้ง 2 ส่วน: การ์ด (บน) + ชั้นวาง (ล่าง)
+   ใช้ inline-block เพื่อให้ “ความกว้าง = เนื้อหา” */
+.cert-row{
+  display: inline-block;          /* <<< คีย์: หดตามความกว้างการ์ดจริง */
+  vertical-align: top;
+  margin: 0 auto 28px;
+}
+
+/* ---- กริดการ์ดในแต่ละชั้น (ใช้ flex เพื่อไม่ยืดเต็มแถว) ---- */
+.cert-grid{
+  display: flex;                  /* <<< ไม่ยืดเต็ม, รวมความกว้างตามจำนวนการ์ด */
+  gap: 16px;
+  align-items: stretch;
+  justify-content: flex-start;    /* การ์ดชิดซ้ายของแถวนั้น */
+}
+
+/* มือถือ: 2 ใบต่อแถว (เพราะเรา split เป็นแถวอยู่แล้ว) */
+@media (max-width: 480px){
+  .cert-grid{ gap: 12px; }
+  .cert-card{ flex: 0 0 calc(50% - 6px); }  /* 2 ใบพอดีความกว้างแถว */
+}
+
+/* Desktop: กำหนดความกว้างการ์ดให้พอดี 3 ใบใน 820px */
+@media (min-width: 481px){
+  .cert-card{ flex: 0 0 236px; }  /* ~236px * 3 + ช่องว่าง 16px*2 ≈ 740px */
+}
+
+/* ---- การ์ด ---- */
+.cert-card{
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.06);
+  overflow: hidden;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.cert-card:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0,0,0,.10);
+}
+
+/* ---- กรอบภาพ ---- */
+.cert-thumb{
+  position: relative;
+  background: #f6f7fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: clamp(110px, 18vw, 150px);
+  aspect-ratio: 5 / 4;
+  padding: 8px;
+  border-bottom: 1px solid #eef0f4;
+
+  overflow: hidden;
+}
+.cert-thumb::after{
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle,
+    rgba(255,182,193,0.45) 0%,
+    rgba(255,182,193,0.2) 50%,
+    rgba(255,182,193,0) 80%);
+  opacity: 0;
+  filter: blur(20px);
+  transition: opacity 0.3s ease;
+  z-index: 0;
+}
+.cert-thumb img{
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.25s ease;
+}
+.cert-thumb:hover img{ transform: scale(1.06); }
+.cert-thumb:hover::after{ opacity: 1; }
+
+/* ---- ข้อความใต้ภาพ ---- */
+.cert-meta{
+  padding: 8px 10px 10px;
+  text-align: center;
+  min-height: 64px;
+}
+.cert-title{
+  font-size: .9rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #2c2c2c;
+  min-height: 2.3em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cert-issuer{ font-size: .8rem; color: #6b6f76; margin-top: 2px; }
+.cert-date  { font-size: .75rem; color: #9aa0a6; }
+
+/* ---- แผ่นชั้น + เงา (ยาวเท่าความกว้างของแถวจริง) ---- */
+.cert-shelf{
+  height: 12px;
+  margin-top: 10px;
+  border-radius: 6px;
+  background: linear-gradient(180deg,#ffffff 0%,#f3f4f7 60%,#e5e7eb 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.9),
+    0 -3px 6px rgba(0,0,0,.05),
+    0 16px 22px rgba(0,0,0,.18),
+    0 6px 10px rgba(0,0,0,.12);
+  pointer-events: none;
+}
+
+/* ---- Lightbox (ถ้าใช้) ---- */
+.lightbox{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.lightbox img{
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 8px;
+}

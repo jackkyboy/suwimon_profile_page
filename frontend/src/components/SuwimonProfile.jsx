@@ -4,30 +4,42 @@ import './Profile.css';
 import CatCowSwing from "./CatCowSwing";
 import "./CatCowSwing.css";
 
+// ✅ import สร้างเล่ม PDF และรายการใบเซอร์
+import { makeCertificateBook } from "../utils/makeCertificateBook";
+import { certificates } from "../data/certificates";
+
+
+
+
+// ✅ import รูปจาก assets
+import profileImage from '../assets/suwimon_profile.JPG';
 
 export default function SuwimonProfile() {
   return (
     <div className="container profile-wrapper">
+      {/* Header */}
       <div className="text-center profile-header mb-4">
         <img
-          src="/images/suwimon_profile.jpg" // ✅ ใช้รูปจริงจาก public
+          src={profileImage}  // ✅ ใช้ตัวแปรจาก import
           className="rounded-circle shadow profile-img"
-          alt="Suwimon Kaemah"
+          alt="Suwimon Kaema"
         />
         <h2 className="mt-3 text-pink">สุวิมล แกะมา (ฟ้า)</h2>
         <p className="text-muted px-3">
-          ผู้เชี่ยวชาญงานจัดซื้อ 📦 | รักการเรียนรู้ 📚 <br className="d-sm-none" />
+          ผู้เชี่ยวชาญงานจัดซื้อ 📦 | รักการเรียนรู้ 📚{" "}
+          <br className="d-sm-none" />
           พูดไทย อังกฤษ ญี่ปุ่นเบื้องต้น 🇹🇭🇬🇧🇯🇵
         </p>
 
-        {/* 🎀 แมวลายวัวนม (ตกแต่งมุม header) */}
+        {/* 🎀 แมวลายวัวนม */}
         <div className="cowcat-slot d-none d-md-block">
           <CatCowSwing />
         </div>
       </div>
 
-
+      {/* Content */}
       <div className="row mt-4 gx-5 gy-4">
+        {/* Personal Info + Education + Certificates */}
         <div className="col-md-6">
           <h5>📍 ข้อมูลส่วนตัว</h5>
           <ul className="list-unstyled">
@@ -53,8 +65,17 @@ export default function SuwimonProfile() {
             <li>Fundamentals of Content Marketing</li>
             <li>Introduction to Digital Marketing</li>
           </ul>
+
+          {/* ปุ่มดาวน์โหลดเล่มรวม (รวมภาพจาก data/certificates) */}
+          <button
+            className="btn btn-primary mt-2"
+            onClick={() => makeCertificateBook(certificates.map(c => c.imageUrl))}
+          >
+            📘 ดาวน์โหลดเล่มรวม
+          </button>
         </div>
 
+        {/* Work Experience + Skills */}
         <div className="col-md-6">
           <h5>💼 ประสบการณ์ทำงาน</h5>
 
@@ -69,7 +90,18 @@ export default function SuwimonProfile() {
             </ul>
           </div>
 
-          <div>
+          <div className="mb-3">
+            <strong>Wuexcargo Co., Ltd. (2024)</strong><br />
+            <span className="text-muted">ตำแหน่ง: แอดมินเซลล์</span>
+            <ul>
+              <li>ดูแลตอบแชทลูกค้า เช่น Line OA</li>
+              <li>ดูแลเพจ Facebook และเว็บไซต์</li>
+              <li>ประสานงานด้านการขายในบริษัท</li>
+              <li>สั่งสินค้าจากประเทศจีนและตรวจสอบสินค้าขนส่ง</li>
+            </ul>
+          </div>
+
+          <div className="mb-3">
             <strong>Cheetah Insurance Broker Co., Ltd. (2023)</strong><br />
             <span className="text-muted">ตำแหน่ง: เจ้าหน้าที่จัดซื้อ</span>
             <ul>
@@ -92,48 +124,20 @@ export default function SuwimonProfile() {
         </div>
       </div>
 
-        <div className="text-center mt-5 social-buttons">
+      {/* Social Links */}
+      <div className="text-center mt-5 social-buttons">
+        <a href="https://facebook.com/suwimon" className="btn btn-info mx-2" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="https://instagram.com/suwimon" className="btn btn-warning mx-2" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://line.me/ti/p/miyeonx97" className="btn btn-success mx-2" target="_blank" rel="noopener noreferrer">Line</a>
         <a
-            href="https://facebook.com/suwimon"
-            className="btn btn-info mx-2"
-            target="_blank"
-            rel="noopener noreferrer"
+          href="https://www.tiktok.com/@aya30433?_t=ZS-8yqe6reRlJt&_r=1"
+          className="btn btn-dark mx-2"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-            Facebook
+          TikTok — แชร์จากลูกค้า 🎐
         </a>
-        <a
-            href="https://instagram.com/suwimon"
-            className="btn btn-warning mx-2"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            Instagram
-        </a>
-        <a
-            href="https://line.me/ti/p/miyeonx97"
-            className="btn btn-success mx-2"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            Line
-        </a>
-        <a
-            href="https://www.tiktok.com/@aya30433?_t=ZS-8yqe6reRlJt&_r=1"
-            className="btn btn-dark mx-2"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            TikTok 🎐
-        </a>
-        <a
-            href="https://www.facebook.com/share/19BcYGgUtq/?mibextid=wwXIfr"
-            className="btn btn-primary mx-2"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            แชร์จากลูกค้า 🎐.f
-        </a>
-        </div>
+      </div>
     </div>
   );
 }

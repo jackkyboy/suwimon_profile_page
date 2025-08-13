@@ -38,7 +38,6 @@ body{
   min-height:100vh;
   font-family:'Kanit',sans-serif;
 
-  /* animated pastel gradient */
   background: linear-gradient(145deg, var(--pink-100), var(--cyan-100), #fdf3f7, var(--cyan-200));
   background-size:400% 400%;
   animation: gradientFlow 20s ease infinite;
@@ -93,7 +92,6 @@ p{ color:#555; margin:0 }
 
 /* =========================================================
    Social Buttons
-   - รองรับทั้ง nth-child เดิม และ class เฉพาะ (เช่น .btn-fb)
 ========================================================= */
 .social-buttons a{
   display:inline-block;
@@ -106,27 +104,22 @@ p{ color:#555; margin:0 }
 }
 .social-buttons a:hover{ opacity:.85; transform:scale(1.03) }
 
-/* backward compatible (nth-child) */
-.social-buttons a:nth-child(1),
-.social-buttons a.btn-fb{
-  background:#ffe0f0; color:#d63384;
-}
-.social-buttons a:nth-child(2),
-.social-buttons a.btn-ig{
-  background:#d0f0ff; color:#0d6efd;
-}
-.social-buttons a:nth-child(3),
-.social-buttons a.btn-line{
-  background:#dafbe1; color:#198754;
-}
+/* nth-child (คงค่าเดิม) + class เฉพาะ */
+.social-buttons a:nth-child(1), .social-buttons a.btn-fb{ background:#ffe0f0; color:#d63384; }
+.social-buttons a:nth-child(2), .social-buttons a.btn-ig{ background:#d0f0ff; color:#0d6efd; }
+.social-buttons a:nth-child(3), .social-buttons a.btn-line{ background:#dafbe1; color:#198754; }
 
 /* =========================================================
    Header / Footer Bars
 ========================================================= */
-.profile-header-bar{
-  background:linear-gradient(90deg, var(--pink-100), var(--cyan-100));
-  border-bottom:1px solid #ffdce5;
-  box-shadow:var(--shadow-soft);
+.profile-header {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 220px;
+
+  /* แก้กลับไปให้เนื้อหาจัดกลางแบบ block ปกติ */
+  text-align: center;
 }
 .header-logo{
   font-size:32px;
@@ -139,41 +132,50 @@ p{ color:#555; margin:0 }
   font-size:14px;
 }
 
+/* ให้ตัวอักษร/รูปหลักอยู่เหนือแมวเสมอ */
+.profile-header .profile-title,
+.profile-header .profile-meta,
+.profile-header .profile-img{
+  position: relative;
+  z-index: 2;
+}
+
 /* =========================================================
    Cow-Cat (embedded compact mode)
 ========================================================= */
-.profile-header{ position:relative; overflow:hidden; }
-
+/* แมวลอยอิสระ ไม่ไปรวมกับเนื้อหา */
 .cowcat-slot{
   position:absolute;
-  top:-10px; right:-10px;
-  width:220px; height:220px;
+  top:-28px;
+  right:-28px;
+  width:280px;
+  height:280px;
   pointer-events:none;
-  z-index:2;
+  z-index:1;          /* ต่ำกว่าข้อความ (ซึ่ง z-index:2) */
+  overflow:hidden;    /* กรอบใหญ่ขึ้น เลยไม่ตัดตัวแล้ว */
 }
 .cowcat-slot .cowcat-scene{
   width:100%; height:100%;
   background:transparent !important;
 }
+
+/* ย่อ+ขยับให้พอดีกรอบ ลดอาการ sub-pixel */
 .cowcat-slot .all-wrap{
-  transform:scale(.78);
-  transform-origin:top right;
+  transform: scale(.74) translate(18px, 10px);
+  transform-origin: top right;
+  will-change: transform;
 }
 
-/* --- keep the whole cat inside the slot --- */
+/* จูนเชือก/จุดหมุนให้ไม่ชนขอบ */
 .cowcat-slot .all{
-  top:3.5rem;                   /* (เดิม 10rem) ลดความยาวเชือก */
-  transform-origin:center -6rem;/* (เดิม -20rem) */
+  top: 2.6rem;
+  transform-origin: center -5.6rem;
 }
 .cowcat-slot .all::before{
-  height:6rem;                  /* (เดิม 20rem) */
-  bottom:6rem;
+  height: 5.2rem;
+  bottom: 5.2rem;
 }
-.cowcat-slot .yarn{ width:56px; height:56px; }
-.cowcat-slot .cat-wrap{ left:calc(50% - 35px); width:70px; height:95px; }
-.cowcat-slot .cat-lower-wrap{ top:92%; width:60px; left:calc(50% - 30px); }
-.cowcat-slot .cat-head{ width:70px; height:70px; top:calc(100% - 35px); }
-.cowcat-slot .cat-lower > .cat-tail{ top:92%; }
+
 
 /* =========================================================
    Responsive
