@@ -6,7 +6,7 @@
 :root{
   /* palette */
   --pink:#ff6f9c;
-  --pink-100:#ffe6f0;
+  --pink-100:#f397c0;
   --pink-200:#ffd6ec;
   --pink-shadow: rgba(255,182,193,.3);
 
@@ -49,7 +49,14 @@ body{
   min-height:100vh;
   font-family:'Kanit',sans-serif;
 
-  background: linear-gradient(145deg, var(--pink-100), var(--cyan-100), #fdf3f7, var(--cyan-200));
+  /* ชมพูพาสเทลอมฟ้า */
+  background: linear-gradient(
+    145deg, 
+    #ffd6ec,       /* ชมพูพาสเทล */
+    #e0f7fa,       /* ฟ้าอ่อน */
+    #fce4ec,       /* ชมพูขาว */
+    #d0f0f7        /* ฟ้าอมเขียวพาสเทล */
+  );
   background-size:400% 400%;
   animation: gradientFlow 20s ease infinite;
 
@@ -57,11 +64,13 @@ body{
   justify-content:center;
   align-items:center;
 }
+
 @keyframes gradientFlow{
   0%{background-position:0% 50%}
   50%{background-position:100% 50%}
   100%{background-position:0% 50%}
 }
+
 
 /* =========================================================
    Profile Card

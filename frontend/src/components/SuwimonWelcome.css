@@ -1,0 +1,46 @@
+/* พื้นหลังชมพู-ฟ้าพาสเทล “ชัดขึ้น” + เคลื่อนไหว */
+.welcome-bounce {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(315deg,
+    #ff82ab 0%,
+    #7ec8e3 50%,
+    #ff82ab 100%);
+  background-size: 300% 300%;
+  animation: wbFlow 8s ease-in-out infinite;
+  font-family: "Kanit", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+@keyframes wbFlow {
+  0%,100% { background-position: 0% 50%; }
+  50%     { background-position: 100% 50%; }
+}
+
+/* ลูกบอลตัวอักษร */
+.ball {
+  position: absolute;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 38px;            /* ให้ตัวอักษรอยู่กลางวง */
+  color: #ffffff;               /* ตัวหนังสือสีขาวตัดพื้น */
+  font-weight: 700;
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,.25));
+
+  /* วงกลมไล่สีชมพู-ฟ้าเข้มขึ้น ดูเด่น */
+  background: radial-gradient(circle at 30% 30%, #ff9bc0, #e34783 55%, #c73372);
+  /* จะให้ฟ้า/ชมพูสลับกันได้ตามใจ: ปล่อยแบบนี้เพื่อ contrast สูง */
+}
+
+/* แผ่นปิดท้าย (ทำให้ fade) */
+.cover {
+  position: absolute;
+  background: radial-gradient(circle, rgba(255,130,171,.95), rgba(255,130,171,.6));
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  filter: blur(1px);
+  opacity: 1;
+}
