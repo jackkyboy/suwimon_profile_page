@@ -275,3 +275,56 @@ p { color: #555; margin: 0; }
   .cowcat-slot{ width:170px; height:170px; top:-6px; right:-6px; }
   .cowcat-slot .all-wrap{ transform:scale(.62); }
 }
+
+
+/* ============== iOS / Safari base tweaks ============== */
+/* ===== Fix: mobile overflow & shrink-to-fit ===== */
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;          /* กันการล้นแนวนอนที่ทำให้ทั้งหน้าโดนย่อ */
+  -webkit-text-size-adjust: 100%;
+  min-height: 100dvh;          /* แทน 100vh บน Safari */
+}
+
+/* รูท/รากของ React ให้ไม่ล้น */
+#root { width: 100%; max-width: 100%; }
+
+/* ภาพ/สื่อ ห้ามดันเลย์เอาต์ล้นขอบจอ */
+img, video, canvas, svg { max-width: 100%; height: auto; }
+
+/* กล่องการ์ดหลัก: ให้กว้างตามจอ โดยยังคุม max ได้ */
+.profile-card {
+  width: min(94vw, 460px);     /* ปกติเดิม max-width:460px แต่บังคับกินพื้นที่จอ */
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* คอนเทนเนอร์ bootstrap ที่บางที padding ทำให้เกิน */
+.container, .profile-wrapper {
+  width: 100%;
+  max-width: 100%;
+  padding-left: 16px;
+  padding-right: 16px;
+  box-sizing: border-box;
+}
+
+/* ส่วนวางแมว/ของตกแต่งไม่ให้ดันกว้าง (absolute ก็ยังกันไว้) */
+.cowcat-slot { max-width: 100%; overflow: hidden; }
+
+/* องค์ประกอบข้อความยาว (ลิงก์/อีเมล) ให้ตัดบรรทัดได้ */
+p, h1, h2, h3, h4, h5, h6, .text-block, .profile-meta {
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+
+/* breakpoint มือถือเล็ก (รวม iPhone 14/15/16 แนวตั้ง) */
+@media (max-width: 430px) {
+  :root{
+    --avatar-size: 132px;
+    --avatar-ring: 16px;
+    --glass-blur: 8px;
+  }
+  .profile-card { width: 92vw; }
+  .cowcat-slot{ width: 150px; height: 150px; top: -4px; right: -4px; }
+}
